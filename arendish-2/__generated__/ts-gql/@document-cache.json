@@ -1,0 +1,45 @@
+{
+  "version": "ts-gql-document-extractor@v3,@babel/parser@7.16.4",
+  "integrity": "__TS_GQL_INTEGRITY_a6647f4b313c53cb66d95cb66397e5dd_TS_GQL_INTEGRITY__",
+  "cache": {
+    "/Users/noviny/Development/personal-code/experiments/arendish-2/pages/_app.tsx": {
+      "hash": "e851bd1651711e27eb5641e0c0460e66",
+      "errors": [],
+      "documents": []
+    },
+    "/Users/noviny/Development/personal-code/experiments/arendish-2/pages/api/hello.ts": {
+      "hash": "a546ee6e68d199da5565dc561f68d7be",
+      "errors": [],
+      "documents": []
+    },
+    "/Users/noviny/Development/personal-code/experiments/arendish-2/pages/index.tsx": {
+      "hash": "65c315c60975a48939d03e4ad74577b6",
+      "errors": [],
+      "documents": [
+        {
+          "loc": {
+            "start": {
+              "line": 8,
+              "column": 17
+            },
+            "end": {
+              "line": 15,
+              "column": 1
+            }
+          },
+          "document": "\n  query SomethingUnique {\n    locations {\n      id\n      name\n    }\n  }\n"
+        }
+      ]
+    },
+    "/Users/noviny/Development/personal-code/experiments/arendish-2/__generated__/ts-gql/@introspection.ts": {
+      "hash": "6ccdf23d85be417128b0579474d72579",
+      "errors": [],
+      "documents": []
+    },
+    "/Users/noviny/Development/personal-code/experiments/arendish-2/__generated__/ts-gql/SomethingUnique.ts": {
+      "hash": "c5283291b799dae1fc68dcdbf57d5bb5",
+      "errors": [],
+      "documents": []
+    }
+  }
+}

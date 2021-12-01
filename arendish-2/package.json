@@ -1,0 +1,37 @@
+{
+  "name": "arendish-2",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "postinstall": "ts-gql build",
+    "ts-gql:build": "ts-gql build",
+    "ts-gql:watch": "ts-gql watch"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.5.5",
+    "@keystone-6/document-renderer": "^1.0.0",
+    "@ts-gql/apollo": "^0.11.0",
+    "@ts-gql/babel-plugin": "^0.1.0",
+    "@ts-gql/compiler": "^0.15.0",
+    "@ts-gql/eslint-plugin": "^0.8.0",
+    "@ts-gql/next": "^16.0.0",
+    "@ts-gql/tag": "^0.6.0",
+    "next": "12.0.4",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "16.11.11",
+    "@types/react": "17.0.37",
+    "eslint": "7",
+    "eslint-config-next": "12.0.4",
+    "typescript": "4.5.2"
+  },
+  "ts-gql": {
+    "schema": "../schema.graphql"
+  }
+}
