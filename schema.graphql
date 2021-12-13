@@ -630,6 +630,12 @@ type Faction {
   id: ID!
   name: String
   slug: String
+  status: String
+  affiliations: String
+  tier: Int
+  hold: String
+  quiet_changes: String
+  dyer_interactions: String
   description: Faction_description_Document
   characters(
     where: CharacterWhereInput! = {}
@@ -685,6 +691,12 @@ input FactionWhereInput {
   id: IDFilter
   name: StringFilter
   slug: StringFilter
+  status: StringNullableFilter
+  affiliations: StringFilter
+  tier: IntNullableFilter
+  hold: StringNullableFilter
+  quiet_changes: StringFilter
+  dyer_interactions: StringFilter
   characters: CharacterManyRelationFilter
   locations: LocationManyRelationFilter
   tags: TagManyRelationFilter
@@ -692,15 +704,38 @@ input FactionWhereInput {
   notes: NoteManyRelationFilter
 }
 
+input IntNullableFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: IntNullableFilter
+}
+
 input FactionOrderByInput {
   id: OrderDirection
   name: OrderDirection
   slug: OrderDirection
+  status: OrderDirection
+  affiliations: OrderDirection
+  tier: OrderDirection
+  hold: OrderDirection
+  quiet_changes: OrderDirection
+  dyer_interactions: OrderDirection
 }
 
 input FactionUpdateInput {
   name: String
   slug: String
+  status: String
+  affiliations: String
+  tier: Int
+  hold: String
+  quiet_changes: String
+  dyer_interactions: String
   description: JSON
   characters: CharacterRelateToManyForUpdateInput
   locations: LocationRelateToManyForUpdateInput
@@ -717,6 +752,12 @@ input FactionUpdateArgs {
 input FactionCreateInput {
   name: String
   slug: String
+  status: String
+  affiliations: String
+  tier: Int
+  hold: String
+  quiet_changes: String
+  dyer_interactions: String
   description: JSON
   characters: CharacterRelateToManyForCreateInput
   locations: LocationRelateToManyForCreateInput
@@ -766,6 +807,7 @@ type Location {
     skip: Int! = 0
   ): [Note!]
   notesCount(where: NoteWhereInput! = {}): Int
+  within: Location
 }
 
 type Location_description_Document {
@@ -810,6 +852,7 @@ input LocationWhereInput {
   tags: TagManyRelationFilter
   clocks: ClockManyRelationFilter
   notes: NoteManyRelationFilter
+  within: LocationWhereInput
 }
 
 input LocationOrderByInput {
@@ -828,6 +871,13 @@ input LocationUpdateInput {
   tags: TagRelateToManyForUpdateInput
   clocks: ClockRelateToManyForUpdateInput
   notes: NoteRelateToManyForUpdateInput
+  within: LocationRelateToOneForUpdateInput
+}
+
+input LocationRelateToOneForUpdateInput {
+  create: LocationCreateInput
+  connect: LocationWhereUniqueInput
+  disconnect: Boolean
 }
 
 input LocationUpdateArgs {
@@ -845,6 +895,12 @@ input LocationCreateInput {
   tags: TagRelateToManyForCreateInput
   clocks: ClockRelateToManyForCreateInput
   notes: NoteRelateToManyForCreateInput
+  within: LocationRelateToOneForCreateInput
+}
+
+input LocationRelateToOneForCreateInput {
+  create: LocationCreateInput
+  connect: LocationWhereUniqueInput
 }
 
 type Clock {
@@ -915,17 +971,6 @@ input ClockWhereInput {
   locations: LocationManyRelationFilter
   tags: TagManyRelationFilter
   notes: NoteManyRelationFilter
-}
-
-input IntNullableFilter {
-  equals: Int
-  in: [Int!]
-  notIn: [Int!]
-  lt: Int
-  lte: Int
-  gt: Int
-  gte: Int
-  not: IntNullableFilter
 }
 
 input ClockOrderByInput {

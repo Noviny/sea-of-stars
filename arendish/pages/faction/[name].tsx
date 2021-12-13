@@ -3,31 +3,8 @@ import { gql } from "@ts-gql/tag";
 import { useQuery } from "@ts-gql/apollo";
 import { NextPage } from "next";
 import Link from "next/link";
-import {
-  DocumentRenderer,
-  DocumentRendererProps,
-} from "@keystone-6/document-renderer";
 import { useRouter } from "next/router";
-
-const renderers: DocumentRendererProps["renderers"] = {
-  inline: {
-    relationship({ relationship, data }) {
-      // mention is a type, and there it is
-      if (relationship === "mention") {
-        console.log(data);
-
-        if (data === null || data.data === undefined) {
-          return <span>[unknown author]</span>;
-        } else {
-          return (
-            <Link href={`/character/${data.data.slug}`}>{data.data.name}</Link>
-          );
-        }
-      }
-      return null;
-    },
-  },
-};
+import { DocumentRenderer } from "../../components/document";
 
 const query = gql`
   query FactionView($slug: String) {
@@ -68,10 +45,7 @@ const Page: NextPage = () => {
   return (
     <div>
       <h1>{faction.name}</h1>
-      <DocumentRenderer
-        renderers={renderers}
-        document={faction.description?.document}
-      />
+      <DocumentRenderer document={faction.description?.document} />
     </div>
   );
 };

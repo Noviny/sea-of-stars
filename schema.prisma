@@ -74,33 +74,44 @@ model Character {
 }
 
 model Faction {
-  id          String      @id @default(cuid())
-  name        String      @unique @default("")
-  slug        String      @unique @default("")
-  description String      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  characters  Character[] @relation("Character_factions")
-  locations   Location[]  @relation("Faction_locations")
-  tags        Tag[]       @relation("Faction_tags")
-  clocks      Clock[]     @relation("Clock_factions")
-  notes       Note[]      @relation("Faction_notes")
-}
-
-model Location {
   id                String      @id @default(cuid())
   name              String      @unique @default("")
   slug              String      @unique @default("")
-  picture_filesize  Int?
-  picture_extension String?
-  picture_width     Int?
-  picture_height    Int?
-  picture_mode      String?
-  picture_id        String?
+  status            String?     @default("0")
+  affiliations      String      @default("")
+  tier              Int?
+  hold              String?     @default("0")
+  quiet_changes     String      @default("")
+  dyer_interactions String      @default("")
   description       String      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  characters        Character[] @relation("Character_locations")
-  factions          Faction[]   @relation("Faction_locations")
-  tags              Tag[]       @relation("Location_tags")
-  clocks            Clock[]     @relation("Clock_locations")
-  notes             Note[]      @relation("Location_notes")
+  characters        Character[] @relation("Character_factions")
+  locations         Location[]  @relation("Faction_locations")
+  tags              Tag[]       @relation("Faction_tags")
+  clocks            Clock[]     @relation("Clock_factions")
+  notes             Note[]      @relation("Faction_notes")
+}
+
+model Location {
+  id                   String      @id @default(cuid())
+  name                 String      @unique @default("")
+  slug                 String      @unique @default("")
+  picture_filesize     Int?
+  picture_extension    String?
+  picture_width        Int?
+  picture_height       Int?
+  picture_mode         String?
+  picture_id           String?
+  description          String      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  characters           Character[] @relation("Character_locations")
+  factions             Faction[]   @relation("Faction_locations")
+  tags                 Tag[]       @relation("Location_tags")
+  clocks               Clock[]     @relation("Clock_locations")
+  notes                Note[]      @relation("Location_notes")
+  within               Location?   @relation("Location_within", fields: [withinId], references: [id])
+  withinId             String?     @map("within")
+  from_Location_within Location[]  @relation("Location_within")
+
+  @@index([withinId])
 }
 
 model Clock {

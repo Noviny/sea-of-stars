@@ -1,6 +1,4 @@
-import { graphql } from "@keystone-6/core";
 import { list } from "@keystone-6/core";
-
 import {
   text,
   relationship,
@@ -40,18 +38,37 @@ const docsOptions = {
   links: true,
   dividers: true,
   relationships: {
-    mention: {
+    character: {
       kind: "inline",
       listKey: "Character",
-      label: "Mention",
+      label: "character",
       selection: "id name slug",
     },
     location: {
       kind: "inline",
       listKey: "Location",
-      label: "Location",
-      selection: "id name",
+      label: "location",
+      selection: "id name slug",
     },
+    clock: {
+      kind: "inline",
+      listKey: "Clock",
+      label: "clock",
+      selection: "id name slug",
+    },
+    faction: {
+      kind: "inline",
+      listKey: "Faction",
+      label: "faction",
+      selection: "id name slug",
+    },
+    // Need to add in thing for notes
+    // faction: {
+    //   kind: "inline",
+    //   listKey: "Location",
+    //   label: "location",
+    //   selection: "id name slug",
+    // },
   },
 } as const;
 
@@ -164,6 +181,52 @@ export const lists = {
   Faction: list({
     fields: {
       ...commonFields,
+      status: select({
+        options: [
+          { label: "-3", value: "-3" },
+          { label: "-2", value: "-2" },
+          { label: "-1", value: "-1" },
+          { label: "0", value: "0" },
+          { label: "+1", value: "+1" },
+          { label: "+2", value: "+2" },
+          { label: "+3", value: "+3" },
+        ],
+        defaultValue: "0",
+        ui: {
+          displayMode: "segmented-control",
+        },
+      }),
+      /*
+        Annoyance: I really just wanted a multi-select here (there's a set number of options, but there can be multiples)
+        KS select doesn't do this - my best guess is make a list which you can link many to and block creation in that list.
+        Annoying as I'd love to just define them as consts.
+
+        The plan is to enter them as comma separated values in text and then handle this. I rarely touch these so just wearing
+        the user error.
+      */
+      affiliations: text(),
+      tier: select({
+        options: [
+          { label: "1", value: 1 },
+          { label: "2", value: 2 },
+          { label: "3", value: 3 },
+          { label: "4", value: 4 },
+          { label: "5", value: 5 },
+        ],
+        type: "integer",
+      }),
+      hold: select({
+        options: [
+          { label: "weak", value: "weak" },
+          { label: "strong", value: "strong" },
+        ],
+        defaultValue: "0",
+        ui: {
+          displayMode: "segmented-control",
+        },
+      }),
+      quiet_changes: text({ ui: { displayMode: "textarea" } }),
+      dyer_interactions: text({ ui: { displayMode: "textarea" } }),
       ...sharedRelations("factions"),
     },
   }),
@@ -172,6 +235,7 @@ export const lists = {
       ...commonFields,
       picture: image(),
       ...sharedRelations("locations"),
+      within: relationship({ ref: "Location" }),
     },
   }),
   Clock: list({

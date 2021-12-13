@@ -23,10 +23,9 @@ const Home: NextPage = () => {
 
   let document = data?.notes && data.notes[0].content?.document;
 
-  console.log(data);
   return (
     <div className={styles.container}>
-      <DocumentRenderer document={document} />
+      {document && <DocumentRenderer document={document} />}
       <h1>We need some places</h1>
       <ul>
         <li>
@@ -37,6 +36,9 @@ const Home: NextPage = () => {
         </li>
         <li>
           <Link href="/locations">Locations</Link>
+        </li>
+        <li>
+          <Link href="/clocks">clocks</Link>
         </li>
       </ul>
     </div>
