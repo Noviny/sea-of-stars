@@ -1,0 +1,45 @@
+{
+  "version": "ts-gql-document-extractor@v3,@babel/parser@7.16.4",
+  "integrity": "__TS_GQL_INTEGRITY_28d1667b63069791ba49f6b978b99874_TS_GQL_INTEGRITY__",
+  "cache": {
+    "/Users/noviny/Development/personal-code/experiments/arendish-2/pages/index.tsx": {
+      "hash": "25993f719aec10481944096d33d37b02",
+      "errors": [],
+      "documents": [
+        {
+          "loc": {
+            "start": {
+              "line": 10,
+              "column": 17
+            },
+            "end": {
+              "line": 18,
+              "column": 1
+            }
+          },
+          "document": "\n  query SomethingUnique {\n    notes {\n      content {\n        document(hydrateRelationships: true)\n      }\n    }\n  }\n"
+        }
+      ]
+    },
+    "/Users/noviny/Development/personal-code/experiments/arendish-2/pages/_app.tsx": {
+      "hash": "e851bd1651711e27eb5641e0c0460e66",
+      "errors": [],
+      "documents": []
+    },
+    "/Users/noviny/Development/personal-code/experiments/arendish-2/__generated__/ts-gql/SomethingUnique.ts": {
+      "hash": "fbe3e43c3d76a10eaa2a6be64bfdb255",
+      "errors": [],
+      "documents": []
+    },
+    "/Users/noviny/Development/personal-code/experiments/arendish-2/pages/api/hello.ts": {
+      "hash": "a546ee6e68d199da5565dc561f68d7be",
+      "errors": [],
+      "documents": []
+    },
+    "/Users/noviny/Development/personal-code/experiments/arendish-2/__generated__/ts-gql/@introspection.ts": {
+      "hash": "6ccdf23d85be417128b0579474d72579",
+      "errors": [],
+      "documents": []
+    }
+  }
+}
