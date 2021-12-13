@@ -4,6 +4,7 @@
 type User {
   id: ID!
   name: String
+  slug: String
   email: String
   password: PasswordState
   notes(
@@ -28,6 +29,8 @@ type PasswordState {
 
 input UserWhereUniqueInput {
   id: ID
+  name: String
+  slug: String
   email: String
 }
 
@@ -37,6 +40,7 @@ input UserWhereInput {
   NOT: [UserWhereInput!]
   id: IDFilter
   name: StringFilter
+  slug: StringFilter
   email: StringFilter
   notes: NoteManyRelationFilter
   character: CharacterManyRelationFilter
@@ -96,6 +100,7 @@ input CharacterManyRelationFilter {
 input UserOrderByInput {
   id: OrderDirection
   name: OrderDirection
+  slug: OrderDirection
   email: OrderDirection
 }
 
@@ -106,6 +111,7 @@ enum OrderDirection {
 
 input UserUpdateInput {
   name: String
+  slug: String
   email: String
   password: String
   notes: NoteRelateToManyForUpdateInput
@@ -133,6 +139,7 @@ input UserUpdateArgs {
 
 input UserCreateInput {
   name: String
+  slug: String
   email: String
   password: String
   notes: NoteRelateToManyForCreateInput
@@ -390,6 +397,7 @@ input ClockRelateToManyForCreateInput {
 type Tag {
   id: ID!
   name: String
+  slug: String
   description: Tag_description_Document
   characters(
     where: CharacterWhereInput! = {}
@@ -434,6 +442,8 @@ type Tag_description_Document {
 
 input TagWhereUniqueInput {
   id: ID
+  name: String
+  slug: String
 }
 
 input TagWhereInput {
@@ -442,6 +452,7 @@ input TagWhereInput {
   NOT: [TagWhereInput!]
   id: IDFilter
   name: StringFilter
+  slug: StringFilter
   characters: CharacterManyRelationFilter
   factions: FactionManyRelationFilter
   locations: LocationManyRelationFilter
@@ -452,10 +463,12 @@ input TagWhereInput {
 input TagOrderByInput {
   id: OrderDirection
   name: OrderDirection
+  slug: OrderDirection
 }
 
 input TagUpdateInput {
   name: String
+  slug: String
   description: JSON
   characters: CharacterRelateToManyForUpdateInput
   factions: FactionRelateToManyForUpdateInput
@@ -471,6 +484,7 @@ input TagUpdateArgs {
 
 input TagCreateInput {
   name: String
+  slug: String
   description: JSON
   characters: CharacterRelateToManyForCreateInput
   factions: FactionRelateToManyForCreateInput
@@ -482,6 +496,7 @@ input TagCreateInput {
 type Character {
   id: ID!
   name: String
+  slug: String
   avatar: ImageFieldOutput
   player: User
   description: Character_description_Document
@@ -545,6 +560,8 @@ type Character_description_Document {
 
 input CharacterWhereUniqueInput {
   id: ID
+  name: String
+  slug: String
 }
 
 input CharacterWhereInput {
@@ -553,6 +570,7 @@ input CharacterWhereInput {
   NOT: [CharacterWhereInput!]
   id: IDFilter
   name: StringFilter
+  slug: StringFilter
   player: UserWhereInput
   factions: FactionManyRelationFilter
   locations: LocationManyRelationFilter
@@ -564,10 +582,12 @@ input CharacterWhereInput {
 input CharacterOrderByInput {
   id: OrderDirection
   name: OrderDirection
+  slug: OrderDirection
 }
 
 input CharacterUpdateInput {
   name: String
+  slug: String
   avatar: ImageFieldInput
   player: UserRelateToOneForUpdateInput
   description: JSON
@@ -595,6 +615,7 @@ input CharacterUpdateArgs {
 
 input CharacterCreateInput {
   name: String
+  slug: String
   avatar: ImageFieldInput
   player: UserRelateToOneForCreateInput
   description: JSON
@@ -608,6 +629,7 @@ input CharacterCreateInput {
 type Faction {
   id: ID!
   name: String
+  slug: String
   description: Faction_description_Document
   characters(
     where: CharacterWhereInput! = {}
@@ -652,6 +674,8 @@ type Faction_description_Document {
 
 input FactionWhereUniqueInput {
   id: ID
+  name: String
+  slug: String
 }
 
 input FactionWhereInput {
@@ -660,6 +684,7 @@ input FactionWhereInput {
   NOT: [FactionWhereInput!]
   id: IDFilter
   name: StringFilter
+  slug: StringFilter
   characters: CharacterManyRelationFilter
   locations: LocationManyRelationFilter
   tags: TagManyRelationFilter
@@ -670,10 +695,12 @@ input FactionWhereInput {
 input FactionOrderByInput {
   id: OrderDirection
   name: OrderDirection
+  slug: OrderDirection
 }
 
 input FactionUpdateInput {
   name: String
+  slug: String
   description: JSON
   characters: CharacterRelateToManyForUpdateInput
   locations: LocationRelateToManyForUpdateInput
@@ -689,6 +716,7 @@ input FactionUpdateArgs {
 
 input FactionCreateInput {
   name: String
+  slug: String
   description: JSON
   characters: CharacterRelateToManyForCreateInput
   locations: LocationRelateToManyForCreateInput
@@ -700,6 +728,7 @@ input FactionCreateInput {
 type Location {
   id: ID!
   name: String
+  slug: String
   picture: ImageFieldOutput
   description: Location_description_Document
   characters(
@@ -745,6 +774,8 @@ type Location_description_Document {
 
 input LocationWhereUniqueInput {
   id: ID
+  name: String
+  slug: String
 }
 
 type LocalImageFieldOutput implements ImageFieldOutput {
@@ -773,6 +804,7 @@ input LocationWhereInput {
   NOT: [LocationWhereInput!]
   id: IDFilter
   name: StringFilter
+  slug: StringFilter
   characters: CharacterManyRelationFilter
   factions: FactionManyRelationFilter
   tags: TagManyRelationFilter
@@ -783,10 +815,12 @@ input LocationWhereInput {
 input LocationOrderByInput {
   id: OrderDirection
   name: OrderDirection
+  slug: OrderDirection
 }
 
 input LocationUpdateInput {
   name: String
+  slug: String
   picture: ImageFieldInput
   description: JSON
   characters: CharacterRelateToManyForUpdateInput
@@ -803,6 +837,7 @@ input LocationUpdateArgs {
 
 input LocationCreateInput {
   name: String
+  slug: String
   picture: ImageFieldInput
   description: JSON
   characters: CharacterRelateToManyForCreateInput
@@ -815,6 +850,7 @@ input LocationCreateInput {
 type Clock {
   id: ID!
   name: String
+  slug: String
   piecesToFinish: Int
   piecesFilled: Int
   description: Clock_description_Document
@@ -861,6 +897,8 @@ type Clock_description_Document {
 
 input ClockWhereUniqueInput {
   id: ID
+  name: String
+  slug: String
 }
 
 input ClockWhereInput {
@@ -869,6 +907,7 @@ input ClockWhereInput {
   NOT: [ClockWhereInput!]
   id: IDFilter
   name: StringFilter
+  slug: StringFilter
   piecesToFinish: IntNullableFilter
   piecesFilled: IntNullableFilter
   characters: CharacterManyRelationFilter
@@ -892,12 +931,14 @@ input IntNullableFilter {
 input ClockOrderByInput {
   id: OrderDirection
   name: OrderDirection
+  slug: OrderDirection
   piecesToFinish: OrderDirection
   piecesFilled: OrderDirection
 }
 
 input ClockUpdateInput {
   name: String
+  slug: String
   piecesToFinish: Int
   piecesFilled: Int
   description: JSON
@@ -915,6 +956,7 @@ input ClockUpdateArgs {
 
 input ClockCreateInput {
   name: String
+  slug: String
   piecesToFinish: Int
   piecesFilled: Int
   description: JSON

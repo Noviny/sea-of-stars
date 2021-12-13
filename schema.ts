@@ -1,3 +1,4 @@
+import { graphql } from "@keystone-6/core";
 import { list } from "@keystone-6/core";
 
 import {
@@ -10,6 +11,22 @@ import {
   image,
 } from "@keystone-6/core/fields";
 import { document } from "@keystone-6/fields-document";
+import slugify from "slugify";
+
+const hookedSlug = (fieldName: string) =>
+  text({
+    isIndexed: "unique",
+    ui: {
+      itemView: { fieldMode: "read" },
+    },
+    hooks: {
+      resolveInput: ({ inputData, resolvedData }) => {
+        return inputData[fieldName]
+          ? slugify(inputData[fieldName], { lower: true })
+          : resolvedData[fieldName];
+      },
+    },
+  });
 
 const docsOptions = {
   formatting: true,
@@ -27,7 +44,7 @@ const docsOptions = {
       kind: "inline",
       listKey: "Character",
       label: "Mention",
-      selection: "id name",
+      selection: "id name slug",
     },
     location: {
       kind: "inline",
@@ -73,10 +90,16 @@ const sharedRelations = (list: linkedFields) => {
   return relationships;
 };
 
+const commonFields = {
+  name: text({ isIndexed: "unique", validation: { isRequired: true } }),
+  slug: hookedSlug("name"),
+};
+
 export const lists = {
   User: list({
     fields: {
-      name: text({ validation: { isRequired: true } }),
+      name: text({ validation: { isRequired: true }, isIndexed: "unique" }),
+      slug: hookedSlug("name"),
       email: text({
         validation: { isRequired: true },
         isIndexed: "unique",
@@ -126,13 +149,13 @@ export const lists = {
       isHidden: true,
     },
     fields: {
-      name: text(),
+      ...commonFields,
       ...sharedRelations("tags"),
     },
   }),
   Character: list({
     fields: {
-      name: text(),
+      ...commonFields,
       avatar: image(),
       player: relationship({ ref: "User.character" }),
       ...sharedRelations("characters"),
@@ -140,20 +163,20 @@ export const lists = {
   }),
   Faction: list({
     fields: {
-      name: text(),
+      ...commonFields,
       ...sharedRelations("factions"),
     },
   }),
   Location: list({
     fields: {
-      name: text(),
+      ...commonFields,
       picture: image(),
       ...sharedRelations("locations"),
     },
   }),
   Clock: list({
     fields: {
-      name: text(),
+      ...commonFields,
       piecesToFinish: integer(),
       piecesFilled: integer(),
       ...sharedRelations("clocks"),

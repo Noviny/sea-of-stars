@@ -13,7 +13,8 @@ generator client {
 
 model User {
   id        String      @id @default(cuid())
-  name      String      @default("")
+  name      String      @unique @default("")
+  slug      String      @unique @default("")
   email     String      @unique @default("")
   password  String
   notes     Note[]      @relation("Note_author")
@@ -40,7 +41,8 @@ model Note {
 
 model Tag {
   id          String      @id @default(cuid())
-  name        String      @default("")
+  name        String      @unique @default("")
+  slug        String      @unique @default("")
   description String      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   characters  Character[] @relation("Character_tags")
   factions    Faction[]   @relation("Faction_tags")
@@ -51,7 +53,8 @@ model Tag {
 
 model Character {
   id               String     @id @default(cuid())
-  name             String     @default("")
+  name             String     @unique @default("")
+  slug             String     @unique @default("")
   avatar_filesize  Int?
   avatar_extension String?
   avatar_width     Int?
@@ -72,7 +75,8 @@ model Character {
 
 model Faction {
   id          String      @id @default(cuid())
-  name        String      @default("")
+  name        String      @unique @default("")
+  slug        String      @unique @default("")
   description String      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   characters  Character[] @relation("Character_factions")
   locations   Location[]  @relation("Faction_locations")
@@ -83,7 +87,8 @@ model Faction {
 
 model Location {
   id                String      @id @default(cuid())
-  name              String      @default("")
+  name              String      @unique @default("")
+  slug              String      @unique @default("")
   picture_filesize  Int?
   picture_extension String?
   picture_width     Int?
@@ -100,7 +105,8 @@ model Location {
 
 model Clock {
   id             String      @id @default(cuid())
-  name           String      @default("")
+  name           String      @unique @default("")
+  slug           String      @unique @default("")
   piecesToFinish Int?
   piecesFilled   Int?
   description    String      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")

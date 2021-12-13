@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "keystone dev",
+    "next:dev": "cd arendish && yarn dev",
     "start": "keystone start",
     "build": "keystone build",
     "postinstall": "keystone postinstall"
@@ -12,6 +13,7 @@
     "@keystone-6/auth": "^1.0.0",
     "@keystone-6/core": "^1.0.0",
     "@keystone-6/fields-document": "^1.0.0",
+    "slugify": "^1.6.3",
     "typescript": "^4.5.2"
   },
   "engines": {
