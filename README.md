@@ -28,6 +28,8 @@ Similar, knowing what is 'nearby' what is kind of useful, but how does one repre
 - document field
 - graphql queries setup
 
+OKAY the current 'seed data' example doesn't work. Why? We changed not finding an item to return 'null' instead of throwing.
+
 ## Code Notes for me:
 
 First, define the concepts that need to be available:

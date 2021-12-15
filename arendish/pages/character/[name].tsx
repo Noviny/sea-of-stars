@@ -7,25 +7,26 @@ import { useRouter } from "next/router";
 import { DocumentRenderer } from "../../components/document";
 
 const query = gql`
-  query FactionView($slug: String) {
-    faction(where: { slug: $slug }) {
+  query CharacterView($slug: String) {
+    character(where: { slug: $slug }) {
       name
       id
-      description {
+      description
+      details {
         document(hydrateRelationships: true)
       }
       tags {
         name
         id
       }
-      characters {
+      factions {
         name
         slug
         id
       }
     }
   }
-` as import("../../__generated__/ts-gql/FactionView").type;
+` as import("../../__generated__/ts-gql/CharacterView").type;
 
 const Loading = () => <div>Loading . . .</div>;
 
@@ -41,21 +42,21 @@ const Page: NextPage = () => {
     variables: { slug: name as string },
   });
 
-  const faction = data?.faction;
+  const character = data?.character;
 
   if (loading) {
     return <Loading />;
   }
 
-  if (!faction) {
+  if (!character) {
     return <Error />;
   }
 
   return (
     <div>
-      <h1>{faction.name}</h1>
+      <h1>{character.name}</h1>
       <div>
-        {faction.tags?.map(({ name }, i) => (
+        {character.tags?.map(({ name }, i) => (
           <span
             style={{
               padding: "0px 8px",
@@ -69,8 +70,9 @@ const Page: NextPage = () => {
           </span>
         ))}
       </div>
+      <div>{character.description}</div>
       <h2>Description</h2>
-      <DocumentRenderer document={faction.description?.document} />
+      <DocumentRenderer document={character.details?.document} />
       <h2>Relations</h2>
       <div
         style={{
@@ -79,7 +81,7 @@ const Page: NextPage = () => {
           justifyContent: "space-around",
         }}
       >
-        {faction.characters?.map(({ name, slug }) => (
+        {character.factions?.map(({ name, slug }) => (
           <div
             style={{
               width: 200,
@@ -92,7 +94,7 @@ const Page: NextPage = () => {
             }}
             key={slug}
           >
-            <Link href={`/character/${slug}`}>{name}</Link>
+            <Link href={`/factions/${slug}`}>{name}</Link>
           </div>
         ))}
       </div>

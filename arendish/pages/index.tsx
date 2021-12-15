@@ -21,24 +21,21 @@ const query = gql`
 const Home: NextPage = () => {
   const { error, data } = useQuery(query);
 
-  let document = data?.notes && data.notes[0].content?.document;
-
   return (
     <div className={styles.container}>
-      {document && <DocumentRenderer document={document} />}
       <h1>We need some places</h1>
       <ul>
         <li>
-          <Link href="/factions">Factions</Link>
+          <Link href="/faction">Factions</Link>
         </li>
         <li>
-          <Link href="/characters">Characters</Link>
+          <Link href="/character">Characters</Link>
         </li>
         <li>
-          <Link href="/locations">Locations</Link>
+          <Link href="/location">Locations</Link>
         </li>
         <li>
-          <Link href="/clocks">clocks</Link>
+          <Link href="/clock">clocks</Link>
         </li>
       </ul>
     </div>

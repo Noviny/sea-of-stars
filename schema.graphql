@@ -163,7 +163,6 @@ type Note {
   content: Note_content_Document
   publishDate: DateTime
   author: User
-  description: Note_description_Document
   characters(
     where: CharacterWhereInput! = {}
     orderBy: [CharacterOrderByInput!]! = []
@@ -199,6 +198,7 @@ type Note {
     skip: Int! = 0
   ): [Clock!]
   clocksCount(where: ClockWhereInput! = {}): Int
+  GMNotes: Note_GMNotes_Document
 }
 
 type Note_content_Document {
@@ -208,7 +208,7 @@ type Note_content_Document {
 scalar DateTime
   @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3339#section-5.6")
 
-type Note_description_Document {
+type Note_GMNotes_Document {
   document(hydrateRelationships: Boolean! = false): JSON!
 }
 
@@ -308,12 +308,12 @@ input NoteUpdateInput {
   content: JSON
   publishDate: DateTime
   author: UserRelateToOneForUpdateInput
-  description: JSON
   characters: CharacterRelateToManyForUpdateInput
   factions: FactionRelateToManyForUpdateInput
   locations: LocationRelateToManyForUpdateInput
   tags: TagRelateToManyForUpdateInput
   clocks: ClockRelateToManyForUpdateInput
+  GMNotes: JSON
 }
 
 input UserRelateToOneForUpdateInput {
@@ -361,12 +361,12 @@ input NoteCreateInput {
   content: JSON
   publishDate: DateTime
   author: UserRelateToOneForCreateInput
-  description: JSON
   characters: CharacterRelateToManyForCreateInput
   factions: FactionRelateToManyForCreateInput
   locations: LocationRelateToManyForCreateInput
   tags: TagRelateToManyForCreateInput
   clocks: ClockRelateToManyForCreateInput
+  GMNotes: JSON
 }
 
 input UserRelateToOneForCreateInput {
@@ -399,6 +399,7 @@ type Tag {
   name: String
   slug: String
   description: Tag_description_Document
+  GMNotes: Tag_GMNotes_Document
   characters(
     where: CharacterWhereInput! = {}
     orderBy: [CharacterOrderByInput!]! = []
@@ -440,6 +441,10 @@ type Tag_description_Document {
   document(hydrateRelationships: Boolean! = false): JSON!
 }
 
+type Tag_GMNotes_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
 input TagWhereUniqueInput {
   id: ID
   name: String
@@ -470,6 +475,7 @@ input TagUpdateInput {
   name: String
   slug: String
   description: JSON
+  GMNotes: JSON
   characters: CharacterRelateToManyForUpdateInput
   factions: FactionRelateToManyForUpdateInput
   locations: LocationRelateToManyForUpdateInput
@@ -486,6 +492,7 @@ input TagCreateInput {
   name: String
   slug: String
   description: JSON
+  GMNotes: JSON
   characters: CharacterRelateToManyForCreateInput
   factions: FactionRelateToManyForCreateInput
   locations: LocationRelateToManyForCreateInput
@@ -497,9 +504,11 @@ type Character {
   id: ID!
   name: String
   slug: String
+  description: String
+  GMNotes: Character_GMNotes_Document
+  details: Character_details_Document
   avatar: ImageFieldOutput
   player: User
-  description: Character_description_Document
   factions(
     where: FactionWhereInput! = {}
     orderBy: [FactionOrderByInput!]! = []
@@ -537,6 +546,14 @@ type Character {
   notesCount(where: NoteWhereInput! = {}): Int
 }
 
+type Character_GMNotes_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+type Character_details_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
 interface ImageFieldOutput {
   id: ID!
   filesize: Int!
@@ -554,10 +571,6 @@ enum ImageExtension {
   gif
 }
 
-type Character_description_Document {
-  document(hydrateRelationships: Boolean! = false): JSON!
-}
-
 input CharacterWhereUniqueInput {
   id: ID
   name: String
@@ -571,6 +584,7 @@ input CharacterWhereInput {
   id: IDFilter
   name: StringFilter
   slug: StringFilter
+  description: StringFilter
   player: UserWhereInput
   factions: FactionManyRelationFilter
   locations: LocationManyRelationFilter
@@ -583,14 +597,17 @@ input CharacterOrderByInput {
   id: OrderDirection
   name: OrderDirection
   slug: OrderDirection
+  description: OrderDirection
 }
 
 input CharacterUpdateInput {
   name: String
   slug: String
+  description: String
+  GMNotes: JSON
+  details: JSON
   avatar: ImageFieldInput
   player: UserRelateToOneForUpdateInput
-  description: JSON
   factions: FactionRelateToManyForUpdateInput
   locations: LocationRelateToManyForUpdateInput
   tags: TagRelateToManyForUpdateInput
@@ -616,9 +633,11 @@ input CharacterUpdateArgs {
 input CharacterCreateInput {
   name: String
   slug: String
+  description: String
+  GMNotes: JSON
+  details: JSON
   avatar: ImageFieldInput
   player: UserRelateToOneForCreateInput
-  description: JSON
   factions: FactionRelateToManyForCreateInput
   locations: LocationRelateToManyForCreateInput
   tags: TagRelateToManyForCreateInput
@@ -630,13 +649,14 @@ type Faction {
   id: ID!
   name: String
   slug: String
+  description: Faction_description_Document
+  GMNotes: Faction_GMNotes_Document
   status: String
   affiliations: String
   tier: Int
   hold: String
   quiet_changes: String
   dyer_interactions: String
-  description: Faction_description_Document
   characters(
     where: CharacterWhereInput! = {}
     orderBy: [CharacterOrderByInput!]! = []
@@ -675,6 +695,10 @@ type Faction {
 }
 
 type Faction_description_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+type Faction_GMNotes_Document {
   document(hydrateRelationships: Boolean! = false): JSON!
 }
 
@@ -730,13 +754,14 @@ input FactionOrderByInput {
 input FactionUpdateInput {
   name: String
   slug: String
+  description: JSON
+  GMNotes: JSON
   status: String
   affiliations: String
   tier: Int
   hold: String
   quiet_changes: String
   dyer_interactions: String
-  description: JSON
   characters: CharacterRelateToManyForUpdateInput
   locations: LocationRelateToManyForUpdateInput
   tags: TagRelateToManyForUpdateInput
@@ -752,13 +777,14 @@ input FactionUpdateArgs {
 input FactionCreateInput {
   name: String
   slug: String
+  description: JSON
+  GMNotes: JSON
   status: String
   affiliations: String
   tier: Int
   hold: String
   quiet_changes: String
   dyer_interactions: String
-  description: JSON
   characters: CharacterRelateToManyForCreateInput
   locations: LocationRelateToManyForCreateInput
   tags: TagRelateToManyForCreateInput
@@ -770,8 +796,9 @@ type Location {
   id: ID!
   name: String
   slug: String
-  picture: ImageFieldOutput
   description: Location_description_Document
+  GMNotes: Location_GMNotes_Document
+  picture: ImageFieldOutput
   characters(
     where: CharacterWhereInput! = {}
     orderBy: [CharacterOrderByInput!]! = []
@@ -811,6 +838,10 @@ type Location {
 }
 
 type Location_description_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+type Location_GMNotes_Document {
   document(hydrateRelationships: Boolean! = false): JSON!
 }
 
@@ -864,8 +895,9 @@ input LocationOrderByInput {
 input LocationUpdateInput {
   name: String
   slug: String
-  picture: ImageFieldInput
   description: JSON
+  GMNotes: JSON
+  picture: ImageFieldInput
   characters: CharacterRelateToManyForUpdateInput
   factions: FactionRelateToManyForUpdateInput
   tags: TagRelateToManyForUpdateInput
@@ -888,8 +920,9 @@ input LocationUpdateArgs {
 input LocationCreateInput {
   name: String
   slug: String
-  picture: ImageFieldInput
   description: JSON
+  GMNotes: JSON
+  picture: ImageFieldInput
   characters: CharacterRelateToManyForCreateInput
   factions: FactionRelateToManyForCreateInput
   tags: TagRelateToManyForCreateInput
@@ -907,9 +940,10 @@ type Clock {
   id: ID!
   name: String
   slug: String
+  description: Clock_description_Document
+  GMNotes: Clock_GMNotes_Document
   piecesToFinish: Int
   piecesFilled: Int
-  description: Clock_description_Document
   characters(
     where: CharacterWhereInput! = {}
     orderBy: [CharacterOrderByInput!]! = []
@@ -951,6 +985,10 @@ type Clock_description_Document {
   document(hydrateRelationships: Boolean! = false): JSON!
 }
 
+type Clock_GMNotes_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
 input ClockWhereUniqueInput {
   id: ID
   name: String
@@ -984,9 +1022,10 @@ input ClockOrderByInput {
 input ClockUpdateInput {
   name: String
   slug: String
+  description: JSON
+  GMNotes: JSON
   piecesToFinish: Int
   piecesFilled: Int
-  description: JSON
   characters: CharacterRelateToManyForUpdateInput
   factions: FactionRelateToManyForUpdateInput
   locations: LocationRelateToManyForUpdateInput
@@ -1002,9 +1041,10 @@ input ClockUpdateArgs {
 input ClockCreateInput {
   name: String
   slug: String
+  description: JSON
+  GMNotes: JSON
   piecesToFinish: Int
   piecesFilled: Int
-  description: JSON
   characters: CharacterRelateToManyForCreateInput
   factions: FactionRelateToManyForCreateInput
   locations: LocationRelateToManyForCreateInput
@@ -1072,6 +1112,33 @@ type Mutation {
   updateClocks(data: [ClockUpdateArgs!]!): [Clock]
   deleteClock(where: ClockWhereUniqueInput!): Clock
   deleteClocks(where: [ClockWhereUniqueInput!]!): [Clock]
+  endSession: Boolean!
+  authenticateUserWithPassword(
+    email: String!
+    password: String!
+  ): UserAuthenticationWithPasswordResult
+  createInitialUser(
+    data: CreateInitialUserInput!
+  ): UserAuthenticationWithPasswordSuccess!
+}
+
+union UserAuthenticationWithPasswordResult =
+    UserAuthenticationWithPasswordSuccess
+  | UserAuthenticationWithPasswordFailure
+
+type UserAuthenticationWithPasswordSuccess {
+  sessionToken: String!
+  item: User!
+}
+
+type UserAuthenticationWithPasswordFailure {
+  message: String!
+}
+
+input CreateInitialUserInput {
+  name: String
+  email: String
+  password: String
 }
 
 type Query {
@@ -1132,7 +1199,10 @@ type Query {
   clock(where: ClockWhereUniqueInput!): Clock
   clocksCount(where: ClockWhereInput! = {}): Int
   keystone: KeystoneMeta!
+  authenticatedItem: AuthenticatedItem
 }
+
+union AuthenticatedItem = User
 
 type KeystoneMeta {
   adminMeta: KeystoneAdminMeta!

@@ -29,12 +29,12 @@ model Note {
   publishDate DateTime?
   author      User?       @relation("Note_author", fields: [authorId], references: [id])
   authorId    String?     @map("author")
-  description String      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   characters  Character[] @relation("Character_notes")
   factions    Faction[]   @relation("Faction_notes")
   locations   Location[]  @relation("Location_notes")
   tags        Tag[]       @relation("Note_tags")
   clocks      Clock[]     @relation("Clock_notes")
+  GMNotes     String      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
 
   @@index([authorId])
 }
@@ -44,6 +44,7 @@ model Tag {
   name        String      @unique @default("")
   slug        String      @unique @default("")
   description String      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  GMNotes     String      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   characters  Character[] @relation("Character_tags")
   factions    Faction[]   @relation("Faction_tags")
   locations   Location[]  @relation("Location_tags")
@@ -55,6 +56,9 @@ model Character {
   id               String     @id @default(cuid())
   name             String     @unique @default("")
   slug             String     @unique @default("")
+  description      String     @default("")
+  GMNotes          String     @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  details          String     @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   avatar_filesize  Int?
   avatar_extension String?
   avatar_width     Int?
@@ -63,7 +67,6 @@ model Character {
   avatar_id        String?
   player           User?      @relation("Character_player", fields: [playerId], references: [id])
   playerId         String?    @map("player")
-  description      String     @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   factions         Faction[]  @relation("Character_factions")
   locations        Location[] @relation("Character_locations")
   tags             Tag[]      @relation("Character_tags")
@@ -77,13 +80,14 @@ model Faction {
   id                String      @id @default(cuid())
   name              String      @unique @default("")
   slug              String      @unique @default("")
+  description       String      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  GMNotes           String      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   status            String?     @default("0")
   affiliations      String      @default("")
   tier              Int?
-  hold              String?     @default("0")
+  hold              String?     @default("weak")
   quiet_changes     String      @default("")
   dyer_interactions String      @default("")
-  description       String      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   characters        Character[] @relation("Character_factions")
   locations         Location[]  @relation("Faction_locations")
   tags              Tag[]       @relation("Faction_tags")
@@ -95,13 +99,14 @@ model Location {
   id                   String      @id @default(cuid())
   name                 String      @unique @default("")
   slug                 String      @unique @default("")
+  description          String      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  GMNotes              String      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   picture_filesize     Int?
   picture_extension    String?
   picture_width        Int?
   picture_height       Int?
   picture_mode         String?
   picture_id           String?
-  description          String      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   characters           Character[] @relation("Character_locations")
   factions             Faction[]   @relation("Faction_locations")
   tags                 Tag[]       @relation("Location_tags")
@@ -118,9 +123,10 @@ model Clock {
   id             String      @id @default(cuid())
   name           String      @unique @default("")
   slug           String      @unique @default("")
+  description    String      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  GMNotes        String      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   piecesToFinish Int?
   piecesFilled   Int?
-  description    String      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   characters     Character[] @relation("Character_clocks")
   factions       Faction[]   @relation("Clock_factions")
   locations      Location[]  @relation("Clock_locations")

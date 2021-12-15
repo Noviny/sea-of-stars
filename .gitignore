@@ -3,3 +3,4 @@ node_modules
 keystone.db
 __generated__
 *.log
+old-data

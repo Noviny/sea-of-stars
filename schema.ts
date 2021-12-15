@@ -82,7 +82,6 @@ type linkedFields =
 
 const sharedRelations = (list: linkedFields) => {
   const relationships = {
-    description: document(docsOptions),
     characters: relationship({ ref: `Character.${list}`, many: true }),
     factions: relationship({ ref: `Faction.${list}`, many: true }),
     locations: relationship({ ref: `Location.${list}`, many: true }),
@@ -110,6 +109,15 @@ const sharedRelations = (list: linkedFields) => {
 const commonFields = {
   name: text({ isIndexed: "unique", validation: { isRequired: true } }),
   slug: hookedSlug("name"),
+  description: document(docsOptions),
+  GMNotes: document({
+    ...docsOptions,
+    access: {
+      read: ({ session }) => session?.data.name === "Noviny",
+      update: ({ session }) => session?.data.name === "Noviny",
+      create: ({ session }) => session?.data.name === "Noviny",
+    },
+  }),
 };
 
 export const lists = {
@@ -159,6 +167,14 @@ export const lists = {
         },
       }),
       ...sharedRelations("notes"),
+      GMNotes: document({
+        ...docsOptions,
+        access: {
+          read: ({ session }) => session?.data.name === "Noviny",
+          update: ({ session }) => session?.data.name === "Noviny",
+          create: ({ session }) => session?.data.name === "Noviny",
+        },
+      }),
     },
   }),
   Tag: list({
@@ -173,6 +189,8 @@ export const lists = {
   Character: list({
     fields: {
       ...commonFields,
+      description: text(),
+      details: document(docsOptions),
       avatar: image(),
       player: relationship({ ref: "User.character" }),
       ...sharedRelations("characters"),
@@ -220,7 +238,7 @@ export const lists = {
           { label: "weak", value: "weak" },
           { label: "strong", value: "strong" },
         ],
-        defaultValue: "0",
+        defaultValue: "weak",
         ui: {
           displayMode: "segmented-control",
         },

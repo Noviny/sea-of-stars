@@ -3,6 +3,7 @@ import { gql } from "@ts-gql/tag";
 import { useQuery } from "@ts-gql/apollo";
 import { NextPage } from "next";
 import Link from "next/link";
+import { DocumentRenderer } from "../../components/document";
 
 const query = gql`
   query FactionsHome {
@@ -52,6 +53,7 @@ const Page: NextPage = () => {
               status,
               affiliations,
               tier,
+              description,
               hold,
               quiet_changes,
               dyer_interactions,
@@ -66,7 +68,9 @@ const Page: NextPage = () => {
                 <th>{tier}</th>
                 <th>{hold}</th>
                 {/* placeholder for description */}
-                <th></th>
+                <th>
+                  <DocumentRenderer document={description?.document} />
+                </th>
                 <th>{quiet_changes}</th>
                 <th>{dyer_interactions}</th>
               </tr>
